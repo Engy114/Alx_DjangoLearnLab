@@ -33,23 +33,29 @@ def register(request):
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 
+# Check function to validate if the user is an admin
 def is_admin(user):
     return user.userprofile.role == 'Admin'
 
+# Check function to validate if the user is a librarian
 def is_librarian(user):
     return user.userprofile.role == 'Librarian'
 
+# Check function to validate if the user is a member
 def is_member(user):
     return user.userprofile.role == 'Member'
 
+# Admin view with access restricted to Admin users only
 @user_passes_test(is_admin)
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
+# Librarian view with access restricted to Librarian users only
 @user_passes_test(is_librarian)
 def librarian_view(request):
     return render(request, 'relationship_app/librarian_view.html')
 
+# Member view with access restricted to Member users only
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
