@@ -16,4 +16,6 @@ class LibraryBooksView(ListView):
     def get_queryset(self):
         library_id = self.kwargs.get('library_id')
         return Book.objects.filter(library__id=library_id)
+    
+    "relationship_app/list_books.html"
 
