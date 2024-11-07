@@ -29,3 +29,6 @@ def get_librarian_for_library(library_name):
         return f"No library found with the name {library_name}"
     except Librarian.DoesNotExist:
         return f"No librarian assigned to the library {library_name}"
+    
+    def get_books_by_author(author):
+      return Book.objects.filter(author=author)
