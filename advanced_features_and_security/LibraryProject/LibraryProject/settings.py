@@ -125,3 +125,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+DEBUG = False
+SECURE_BROWSER_XSS_FILTER = True  # Protects against XSS attacks
+X_FRAME_OPTIONS = 'DENY'          # Prevents your site from being loaded in an iframe
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from MIME-sniffing
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+INSTALLED_APPS += ['csp']
+
+# Example CSP settings
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'trusted-scripts.com')  # Allow scripts only from specified domains
+CSP_STYLE_SRC = ("'self'", 'trusted-styles.com')    # Allow styles only from specified domains
+DEBUG = False  # Ensures sensitive data is not exposed in production
+SECURE_BROWSER_XSS_FILTER = True  # Adds extra XSS protection
