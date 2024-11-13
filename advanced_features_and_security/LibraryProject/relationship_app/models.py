@@ -1,6 +1,12 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
+User = get_user_model()  # Reference to the custom user model if using `AUTH_USER_MODEL`
+
+# Custom User Manager
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not email:
@@ -22,12 +28,4 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, email, password, **extra_fields)
 
-class CustomUser(AbstractUser):
-    date_of_birth = models.DateField(null=True, blank=True)
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
-    
-    objects = CustomUserManager()  # Use the custom user manager
-
-    def __str__(self):
-        return self.username
-
+# Custom User Mode
