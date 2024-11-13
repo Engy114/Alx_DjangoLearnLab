@@ -151,3 +151,5 @@ CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are only sent over HTTPS
 X_FRAME_OPTIONS = 'DENY'  # Prevents your site from being displayed in iframes
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from MIME-sniffing
 SECURE_BROWSER_XSS_FILTER = True  # Enables browser XSS filtering
+SECURE_PROXY_SSL_HEADER = True 
+HTTP_X_FORWARDED_PROTO = True
