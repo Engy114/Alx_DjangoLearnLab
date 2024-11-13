@@ -48,3 +48,4 @@ def document_delete(request, document_id):
         document.delete()
         return redirect('document_list')
     return render(request, 'document_confirm_delete.html', {'document': document})
+book_list 
