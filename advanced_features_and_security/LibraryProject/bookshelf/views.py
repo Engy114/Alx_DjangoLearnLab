@@ -57,3 +57,4 @@ def document_delete(request, document_id):
     return render(request, 'document_confirm_delete.html', {'document': document})
 
 book_list 
+from .forms import ExampleForm
