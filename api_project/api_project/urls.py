@@ -20,3 +20,14 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+from django.urls import path
+from .views import BookList
+
+urlpatterns = [
+    path('books/', BookList.as_view(), name='book-list'),  # Maps to the BookList view
+]
+from django.urls import path, include
+
+urlpatterns = [
+    path('api/', include('api.urls')),  # Includes URLs from the `api` app
+]
