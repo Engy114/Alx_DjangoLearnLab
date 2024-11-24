@@ -21,3 +21,6 @@ class BookList(ListAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+viewsets.ModelViewSet
+generics.ListAPIView 
