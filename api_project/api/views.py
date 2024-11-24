@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Book
 from .serializers import BookSerializer
 
-# ViewSet for CRUD operations on Book model
+# ViewSet for full CRUD operations on the Book model
 class BookViewSet(ModelViewSet):
     """
     A ViewSet that provides CRUD operations for the Book model.
@@ -17,8 +17,7 @@ class BookViewSet(ModelViewSet):
 # ListAPIView for listing all books (read-only)
 class BookList(ListAPIView):
     """
-    A ListAPIView to list all books in the database.
+    A ListAPIView that lists all books in the database.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
