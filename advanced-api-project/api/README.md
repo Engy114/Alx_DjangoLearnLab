@@ -43,3 +43,24 @@
      GET /api/books/?ordering=title
      GET /api/books/?ordering=-publication_year
      ```
+
+### API Testing Strategy
+
+We use Django's built-in `unittest` framework to test the API endpoints. The test cases include:
+
+1. **CRUD Operations:**
+   - Creating, retrieving, updating, and deleting books.
+
+2. **Filtering, Searching, and Ordering:**
+   - Filter books by title, author, or publication year.
+   - Search books by title or author name.
+   - Order books by title or publication year.
+
+3. **Authentication and Permissions:**
+   - Ensure unauthenticated users can only read data.
+   - Authenticated users can perform write operations.
+
+### Running the Tests
+Execute the following command:
+```bash
+python manage.py test api
