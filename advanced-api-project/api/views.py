@@ -49,7 +49,7 @@ class BookListView(ListAPIView):
 
     # Define fields for search functionality
     search_fields = ['title', 'author__name']
-
+filters.SearchFilter 
     # Define fields for ordering
     ordering_fields = ['title', 'publication_year']
     filters.OrderingFilter
