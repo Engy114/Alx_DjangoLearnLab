@@ -5,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer, NestedBookSerializer
-
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # ViewSet for CRUD operations on the Book model
 class BookViewSet(ModelViewSet):
