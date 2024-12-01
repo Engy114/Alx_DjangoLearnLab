@@ -3,6 +3,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Book
 from .serializers import BookSerializer
+From rest_framework import generics
 
 # ViewSet for full CRUD operations on the Book model
 class BookViewSet(ModelViewSet):
