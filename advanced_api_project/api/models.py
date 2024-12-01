@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 class Author(models.Model):
     name = models.CharField(max_length=100)
 
@@ -21,7 +19,6 @@ class Author(models.Model):
     Represents an author with a name.
     """
     name = models.CharField(max_length=100)
-
 class Book(models.Model):
     """
     Represents a book with a title, publication year, and associated author.

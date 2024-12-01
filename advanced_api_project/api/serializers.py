@@ -19,6 +19,7 @@ class NestedBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ['id', 'name', 'books']
+
 from datetime import datetime
 
 class BookSerializer(serializers.ModelSerializer):
