@@ -19,3 +19,27 @@
 5. **Delete Book** (DELETE `/books/<id>/delete/`):
    - Deletes a book from the database.
    - Requires authentication (token required).
+
+### API Query Parameters
+
+1. **Filtering:**
+   - Filter books by title, author, or publication year.
+     Example:
+     ```
+     GET /api/books/?title=Harry Potter
+     ```
+
+2. **Searching:**
+   - Search books by title or author name.
+     Example:
+     ```
+     GET /api/books/?search=Harry
+     ```
+
+3. **Ordering:**
+   - Order books by title or publication year.
+     Example:
+     ```
+     GET /api/books/?ordering=title
+     GET /api/books/?ordering=-publication_year
+     ```
