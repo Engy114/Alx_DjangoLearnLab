@@ -1,24 +1,24 @@
 from rest_framework import serializers
 from .models import Author, Book
 
-class AuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Author
-        fields = ['id', 'name']
-
 class BookSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()  # Include nested author details
-
+    """
+    Serializer for the Book model.
+    """
     class Meta:
         model = Book
-        fields = ['id', 'title', 'publication_year', 'author']
+        fields = ['id', 'title', 'publication_year']
 
-class NestedBookSerializer(serializers.ModelSerializer):
-    books = BookSerializer(many=True)  # Dynamically serialize related books
+class AuthorSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Author model with a nested list of books.
+    """
+    books = BookSerializer(many=True, read_only=True)  # Nested relationship
 
     class Meta:
         model = Author
         fields = ['id', 'name', 'books']
+
 
 from datetime import datetime
 
