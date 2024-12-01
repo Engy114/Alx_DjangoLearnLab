@@ -53,7 +53,6 @@ class BookListView(ListAPIView):
     # Define fields for ordering
     ordering_fields = ['title', 'publication_year']
 
-
 # Retrieve a single book by ID
 class BookDetailView(RetrieveAPIView):
     """
