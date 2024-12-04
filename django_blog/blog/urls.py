@@ -5,6 +5,9 @@ from .views import (
     CreateView,
     UpdateView,
     DeleteView,
+    CreateView,
+    UpdateView,
+    DeleteView,
     home,
     login,
     register,
@@ -19,13 +22,16 @@ urlpatterns = [
     path('profile/', profile, name='profile'),  # Profile page
 
     # CRUD URLs for Post model
-    path('post/', ListView.as_view(), name='post-list'),  # List all posts
-    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
-    path('post/new/', CreateView.as_view(), name='post-create'),  # Create a new post
-    path('post/<int:pk>/update/', UpdateView.as_view(), name='post-update'),  # Update a post
-    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
-    path('post/<int:post_id>/comments/new/', views.add_comment, name='add-comment'),
-    path('comments/<int:comment_id>/update/', views.update_comment, name='update-comment'),
-    path('comments/<int:comment_id>/delete/', views.delete_comment, name='delete-comment'),
+    path('posts/', ListView.as_view(), name='post-list'),  # List all posts
+    path('posts/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
+    path('posts/new/', CreateView.as_view(), name='post-create'),  # Create a new post
+    path('posts/<int:pk>/update/', UpdateView.as_view(), name='post-update'),  # Update a post
+    path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
+
+    # CRUD URLs for Comment model
+    path('posts/<int:post_id>/comments/new/', CreateView.as_view(), name='comment-create'),  # Create a new comment
+    path('comments/<int:pk>/update/', UpdateView.as_view(), name='comment-update'),  # Update a comment
+    path('comments/<int:pk>/delete/', DeleteView.as_view(), name='comment-delete'),  # Delete a comment
 ]
+
 
