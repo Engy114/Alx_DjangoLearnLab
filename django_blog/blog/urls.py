@@ -1,14 +1,15 @@
 from django.urls import path
-from .views import search
 from .views import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-    CreateView,
-    UpdateView,
-    DeleteView,
+    PostListView,
+    PostDetailView,
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView,
+    CommentCreateView,
+    CommentUpdateView,
+    CommentDeleteView,
+    PostByTagListView,  # Import for tagging functionality
+    search,
     home,
     login,
     register,
@@ -23,20 +24,20 @@ urlpatterns = [
     path('profile/', profile, name='profile'),  # Profile page
 
     # CRUD URLs for Post model
-    path('posts/', ListView.as_view(), name='post-list'),  # List all posts
-    path('posts/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
-    path('posts/new/', CreateView.as_view(), name='post-create'),  # Create a new post
-    path('posts/<int:pk>/update/', UpdateView.as_view(), name='post-update'),  # Update a post
-    path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
+    path('posts/', PostListView.as_view(), name='post-list'),  # List all posts
+    path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),  # View a single post
+    path('posts/new/', PostCreateView.as_view(), name='post-create'),  # Create a new post
+    path('posts/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),  # Update a post
+    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete a post
 
     # CRUD URLs for Comment model
-    path('post/<int:post_id>/comments/new/', CreateView.as_view(), name='comment-create'),  # Create a new comment
-    path('comment/<int:pk>/update/', UpdateView.as_view(), name='comment-update'),  # Update a comment
-    path('comment/<int:pk>/delete/', DeleteView.as_view(), name='comment-delete'),  # Delete a comment
-]
+    path('posts/<int:post_id>/comments/new/', CommentCreateView.as_view(), name='comment-create'),  # Create a new comment
+    path('comments/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),  # Update a comment
+    path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),  # Delete a comment
 
-# Search URL
-path('search/', search, name='search'),
+    # Search URL
+    path('search/', search, name='search'),
 
     # Tagging URL
-path('tags/<slug:slug>/', ListView.as_view(model=post), name='tagged-posts'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='tagged-posts'),  # View posts by tag
+]
