@@ -29,7 +29,7 @@ urlpatterns = [
     path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
 
     # CRUD URLs for Comment model
-    path('posts/<int:post_id>/comments/new/', CreateView.as_view(), name='comment-create'),  # Create a new comment
+    path('post/<int:post_id>/comments/new/', CreateView.as_view(), name='comment-create'),  # Create a new comment
     path('comment/<int:pk>/update/', UpdateView.as_view(), name='comment-update'),  # Update a comment
     path('comment/<int:pk>/delete/', DeleteView.as_view(), name='comment-delete'),  # Delete a comment
 ]
