@@ -7,21 +7,21 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
-    path('', PostListView.as_view(), name='post-list'),
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
-    path('post/new/', PostCreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('', ListView.as_view(), name='post-list'),
+    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),
+    path('post/new/', CreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),
 ]
 
 from .views import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='post-list'),
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
-    path('post/new/', PostCreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('', ListView.as_view(), name='post-list'),
+    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),
+    path('post/new/', CreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),
 ]
 
 
