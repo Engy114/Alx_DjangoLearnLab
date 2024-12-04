@@ -14,7 +14,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 ]
 
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from .views import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 urlpatterns = [
     path('', PostListView.as_view(), name='post-list'),
