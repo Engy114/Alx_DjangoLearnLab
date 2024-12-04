@@ -1,16 +1,13 @@
-from django.shortcuts import render
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-
-# Extend UserCreationForm
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Post
+from .forms import CustomUserCreationForm  # Move the form definition to forms.py for separation of concerns
 
 # Registration View
 def register(request):
@@ -19,7 +16,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('profile')
+            return redirect('profile')  # Redirect to the profile page
         else:
             messages.error(request, 'Registration failed. Please correct the errors.')
     else:
@@ -36,17 +33,12 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post
-
 # List all posts
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/post_list.html'  # HTML template for the list view
-    context_object_name = 'posts'         # Variable name for the template
-    ordering = ['-published_date']        # Order by published date, newest first
+    template_name = 'blog/post_list.html'  # Template for the list view
+    context_object_name = 'posts'         # Template variable name
+    ordering = ['-published_date']        # Order by most recent posts
 
 # View a single post
 class PostDetailView(DetailView):
@@ -56,10 +48,10 @@ class PostDetailView(DetailView):
 # Create a new post
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']  # Fields visible in the form
+    fields = ['title', 'content']  # Form fields for creating a post
     template_name = 'blog/post_form.html'
 
-    # Automatically set the logged-in user as the author
+    # Automatically assign the logged-in user as the author
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -70,7 +62,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['title', 'content']
     template_name = 'blog/post_form.html'
 
-    # Ensure only the post author can update
+    # Ensure only the author can update the post
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
@@ -81,7 +73,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'blog/post_confirm_delete.html'
     success_url = '/'  # Redirect to the post list after deletion
 
-    # Ensure only the post author can delete
+    # Ensure only the author can delete the post
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
