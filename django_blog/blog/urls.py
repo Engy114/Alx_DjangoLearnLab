@@ -19,10 +19,10 @@ urlpatterns = [
     path('profile/', profile, name='profile'),  # Profile page
 
     # CRUD URLs for Post model
-    path('posts/', ListView.as_view(), name='post-list'),  # List all posts
-    path('posts/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
-    path('posts/new/', CreateView.as_view(), name='post-create'),  # Create a new post
-    path('posts/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),  # Update a post
-    path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
+    path('post/', ListView.as_view(), name='post-list'),  # List all posts
+    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
+    path('post/new/', CreateView.as_view(), name='post-create'),  # Create a new post
+    path('post/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),  # Update a post
+    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
 ]
 
