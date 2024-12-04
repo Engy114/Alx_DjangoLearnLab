@@ -1,27 +1,28 @@
 from django.urls import path
-from . import views
+from .views import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+    home,
+    login,
+    register,
+    profile,
+)
 
 urlpatterns = [
-    # Example URL patterns
-    path('', views.home, name='home'),  # Add your view function names here
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
-    path('profile/', views.profile, name='profile'),
-    path('', ListView.as_view(), name='post-list'),
-    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),
-    path('post/new/', CreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),
+    # Non-CRUD view URLs
+    path('', home, name='home'),  # Home page
+    path('login/', login, name='login'),  # Login page
+    path('register/', register, name='register'),  # Register page
+    path('profile/', profile, name='profile'),  # Profile page
+
+    # CRUD URLs for Post model
+    path('posts/', ListView.as_view(), name='post-list'),  # List all posts
+    path('posts/<int:pk>/', DetailView.as_view(), name='post-detail'),  # View a single post
+    path('posts/new/', CreateView.as_view(), name='post-create'),  # Create a new post
+    path('posts/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),  # Update a post
+    path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),  # Delete a post
 ]
-
-from .views import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-urlpatterns = [
-    path('', ListView.as_view(), name='post-list'),
-    path('post/<int:pk>/', DetailView.as_view(), name='post-detail'),
-    path('post/new/', CreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/edit/', UpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete'),
-]
-
 
