@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import search
 from .views import (
     ListView,
     DetailView,
@@ -34,4 +35,8 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', DeleteView.as_view(), name='comment-delete'),  # Delete a comment
 ]
 
+# Search URL
+path('search/', search, name='search'),
 
+    # Tagging URL
+path('tags/<slug:slug>/', ListView.as_view(model=post), name='tagged-posts'),

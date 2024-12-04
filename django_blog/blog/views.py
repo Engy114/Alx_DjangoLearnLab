@@ -120,3 +120,15 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url()  # Redirect to the post detail page after deleting a comment
+
+from django.db.models import Q
+from django.shortcuts import render
+from .models import Post
+
+def search(request):
+    query = request.GET.get('q')  # Get the search term from the query parameters
+    results = Post.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)
+    ).distinct()  # Filter posts by title, content, or tags
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+
