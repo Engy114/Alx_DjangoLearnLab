@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 from .serializers import UserSerializer
 
 # Get the custom user model
@@ -39,6 +40,8 @@ class ProfileView(APIView):
     """
     Allows users to view and update their profile.
     """
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         # Fetch user details
         user = request.user
@@ -53,3 +56,59 @@ class ProfileView(APIView):
             serializer.save()
             return Response({"message": "Profile updated successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class FollowUserView(APIView):
+    """
+    Allows a user to follow another user.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = User.objects.filter(id=user_id).first()
+        if not target_user:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if target_user == request.user:
+            return Response({"error": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.following.add(target_user)
+        return Response({"message": f"You are now following {target_user.username}"}, status=status.HTTP_200_OK)
+
+class UnfollowUserView(APIView):
+    """
+    Allows a user to unfollow another user.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = User.objects.filter(id=user_id).first()
+        if not target_user:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if target_user == request.user:
+            return Response({"error": "You cannot unfollow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.following.remove(target_user)
+        return Response({"message": f"You have unfollowed {target_user.username}"}, status=status.HTTP_200_OK)
+
+class FollowingListView(APIView):
+    """
+    Displays the list of users the authenticated user is following.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        following = request.user.following.all()
+        data = [{"id": user.id, "username": user.username} for user in following]
+        return Response(data, status=status.HTTP_200_OK)
+
+class FollowersListView(APIView):
+    """
+    Displays the list of users following the authenticated user.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        followers = request.user.followers.all()
+        data = [{"id": user.id, "username": user.username} for user in followers]
+        return Response(data, status=status.HTTP_200_OK)
