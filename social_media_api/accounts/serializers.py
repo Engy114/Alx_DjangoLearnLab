@@ -1,10 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-from .views import UserSerializer
 
 User = get_user_model()
-get_user_model().objects.create_user
+
 class UserSerializer(serializers.ModelSerializer):
     # Define password explicitly as it needs special handling
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
