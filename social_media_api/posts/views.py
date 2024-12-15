@@ -8,6 +8,8 @@ from .models import Post, Comment, Like
 from accounts.serializers import PostSerializer, CommentSerializer
 from notifications.models import Notification
 from accounts.views import permissions,IsAuthenticated
+from accounts.views import generics,get_object_or_404,Post 
+
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -75,7 +77,6 @@ class LikePostView(APIView):
     def post(self, request, pk):
         # Retrieve the post or return 404
         post = get_object_or_404(Post, pk=pk)
-
         # Check if the like already exists
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
