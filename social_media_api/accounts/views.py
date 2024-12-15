@@ -1,8 +1,7 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model, authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import get_user_model, authenticate
 from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer
 
@@ -20,7 +19,6 @@ class RegisterView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            # Create authentication token for the new user
             token, _ = Token.objects.get_or_create(user=user)
             return Response(
                 {"message": "User registered successfully", "token": token.key},
@@ -57,7 +55,7 @@ class FollowUserView(generics.GenericAPIView):
     Allows a user to follow another user.
     """
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         target_user = get_object_or_404(CustomUser, id=user_id)
@@ -65,7 +63,10 @@ class FollowUserView(generics.GenericAPIView):
             return Response({"error": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
 
         request.user.following.add(target_user)
-        return Response({"message": f"You are now following {target_user.username}"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": f"You are now following {target_user.username}"},
+            status=status.HTTP_200_OK,
+        )
 
 
 class UnfollowUserView(generics.GenericAPIView):
@@ -73,7 +74,7 @@ class UnfollowUserView(generics.GenericAPIView):
     Allows a user to unfollow another user.
     """
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         target_user = get_object_or_404(CustomUser, id=user_id)
@@ -81,14 +82,17 @@ class UnfollowUserView(generics.GenericAPIView):
             return Response({"error": "You cannot unfollow yourself."}, status=status.HTTP_400_BAD_REQUEST)
 
         request.user.following.remove(target_user)
-        return Response({"message": f"You have unfollowed {target_user.username}"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": f"You have unfollowed {target_user.username}"},
+            status=status.HTTP_200_OK,
+        )
 
 
 class FollowingListView(generics.GenericAPIView):
     """
     Displays the list of users the authenticated user is following.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         following = request.user.following.all()
@@ -100,7 +104,7 @@ class FollowersListView(generics.GenericAPIView):
     """
     Displays the list of users following the authenticated user.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         followers = request.user.followers.all()
