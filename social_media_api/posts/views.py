@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import Post
 from accounts.serializers import PostSerializer
+from accounts.views import permissions,IsAuthenticated
 
 
 class FeedView(APIView):
@@ -11,7 +12,7 @@ class FeedView(APIView):
     Returns posts from users that the authenticated user is following.
     Posts are ordered by creation date, showing the most recent first.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         # Retrieve users the current user is following
