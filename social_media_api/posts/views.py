@@ -4,7 +4,7 @@ from rest_framework import status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from .models import Post, Comment
 from accounts.serializers import PostSerializer, CommentSerializer
-
+from accounts.views import permissions,IsAuthenticated
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -24,7 +24,7 @@ class PostViewSet(viewsets.ModelViewSet):
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         # Automatically set the current user as the post author
