@@ -162,3 +162,13 @@ STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    path('posts/', include('posts.urls')),
+    path('notifications/', include('notifications.urls')),
+]
