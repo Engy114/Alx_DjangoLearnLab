@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model, authenticate
 from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer
 from .models import permission,IsAuthenticated
-
+from rest_framework import APIView
 # Get the custom user model
 CustomUser = get_user_model()
 class ProfileView(APIView):
