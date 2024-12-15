@@ -8,8 +8,7 @@ from .models import Post, Comment, Like
 from accounts.serializers import PostSerializer, CommentSerializer
 from notifications.models import Notification
 from accounts.views import permissions,IsAuthenticated
-from accounts.views import generics,get_object_or_404,Post 
-
+from accounts.views import generics
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -102,6 +101,7 @@ class UnlikePostView(APIView):
     def post(self, request, pk):
         # Retrieve the post or return 404
         post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # Find and delete the like if it exists
         like = Like.objects.filter(user=request.user, post=post).first()
