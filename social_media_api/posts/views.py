@@ -2,12 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from django.contrib.contenttypes.models import ContentType
 from .models import Post, Comment, Like
 from accounts.serializers import PostSerializer, CommentSerializer
+from notifications.models import Notification
 from accounts.views import permissions,IsAuthenticated
-from accounts.models import Notification
-from .models import Notification
-from django.contrib.contenttypes.models import ContentType
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -66,15 +66,17 @@ class FeedView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
 class LikePostView(APIView):
+    """
+    Allows an authenticated user to like a post and creates a notification.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.filter(id=pk).first()
-        if not post:
-            return Response({"error": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
+        # Retrieve the post or return 404
+        post = get_object_or_404(Post, pk=pk)
 
+        # Check if the like already exists
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if created:
@@ -91,16 +93,18 @@ class LikePostView(APIView):
 
 
 class UnlikePostView(APIView):
+    """
+    Allows an authenticated user to unlike a post.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.filter(id=pk).first()
-        if not post:
-            return Response({"error": "Post not found."}, status=status.HTTP_404_NOT_FOUND)
+        # Retrieve the post or return 404
+        post = get_object_or_404(Post, pk=pk)
 
+        # Find and delete the like if it exists
         like = Like.objects.filter(user=request.user, post=post).first()
         if like:
             like.delete()
             return Response({"message": "Post unliked successfully."}, status=status.HTTP_200_OK)
         return Response({"error": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
-
