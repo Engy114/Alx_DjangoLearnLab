@@ -4,9 +4,29 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model, authenticate
 from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer
+from .models import permission,IsAuthenticated
 
 # Get the custom user model
 CustomUser = get_user_model()
+class ProfileView(APIView):
+    """
+    Allows users to view and update their profile.
+    """
+    permission_classes = [permission.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Profile updated successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 class RegisterView(generics.GenericAPIView):
